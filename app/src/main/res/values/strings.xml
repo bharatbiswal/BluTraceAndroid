@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">BlueTrace</string>
+    <string name="home">Home</string>
+    <string name="recent">Recent</string>
+    <string name="setting">Setting</string>
+    <string name="generateUDID">Generate UDID</string>
+    <string name="uuid">Unique Identifier</string>
+</resources>

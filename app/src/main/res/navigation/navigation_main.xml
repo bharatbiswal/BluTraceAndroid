@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/navigation_main"
+    app:startDestination="@id/home">
+
+    <fragment
+        tools:layout="@layout/fragment_home_layout"
+        android:id="@+id/home"
+        android:name="com.mobiona.bluetrace.fragment.HomeFragment"
+        android:label="HomeFragment" />
+    <fragment
+        tools:layout="@layout/fragment_recent_layout"
+        android:id="@+id/recent"
+        android:name="com.mobiona.bluetrace.fragment.RecentsFragment"
+        android:label="RecentsFragment" />
+    <fragment
+        tools:layout="@layout/fragment_settings_layout"
+        android:id="@+id/settings"
+        android:name="com.mobiona.bluetrace.fragment.SettingsFragment"
+        android:label="SettingsFragment" />
+</navigation>
