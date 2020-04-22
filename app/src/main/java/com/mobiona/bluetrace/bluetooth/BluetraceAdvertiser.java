@@ -17,6 +17,7 @@ public class BluetraceAdvertiser {
     private ParcelUuid pUuid;
     private AdvertiseSettings advertiseSettings;
     private boolean isAdvertising;
+    private int charLength=3;
     public BluetraceAdvertiser(String serviceId){
         bluetoothLeAdvertiser=BluetoothAdapter.getDefaultAdapter().getBluetoothLeAdvertiser();
         pUuid=new ParcelUuid(UUID.fromString(serviceId));
@@ -40,10 +41,16 @@ public class BluetraceAdvertiser {
         if(isAdvertising){
             return;
         }
+        String randomUUID = UUID.randomUUID().toString();
+        String finalString = randomUUID.substring(randomUUID.length() - charLength);
+        Log.d(TAG, "Unique string:"+finalString);
+        byte[] serviceDataByteArray = finalString.getBytes();
+
         AdvertiseData data = new AdvertiseData.Builder()
-                .setIncludeDeviceName( true )
+                .setIncludeDeviceName( false )
                 .addServiceUuid( pUuid )
-                .addServiceData( pUuid, "9778978398".getBytes( Charset.forName( "UTF-8" ) ) )
+                .setIncludeTxPowerLevel(true)
+                .addManufacturerData(1024,serviceDataByteArray)
                 .build();
         bluetoothLeAdvertiser.startAdvertising( advertiseSettings, data, callback);
 
