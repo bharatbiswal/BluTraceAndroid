@@ -5,4 +5,5 @@
     <string name="setting">Setting</string>
     <string name="generateUDID">Generate UDID</string>
     <string name="uuid">Unique Identifier</string>
+    <string name="serviceId">bluetrace_app_mobiona</string>
 </resources>
