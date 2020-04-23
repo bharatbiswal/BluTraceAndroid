@@ -8,6 +8,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.mobiona.bluetrace.PreferenceManager;
 import com.mobiona.bluetrace.R;
 
 import java.util.UUID;
@@ -23,8 +24,10 @@ public class SettingsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         view.findViewById(R.id.generateUDID).setOnClickListener(v->{
             String uuidValue=UUID.randomUUID().toString();
+            PreferenceManager.getInstance(requireActivity()).setDeviceUUID(uuidValue);
             uuidTextView.setText(uuidValue);
         });
         uuidTextView=view.findViewById(R.id.uuidValue);
+        uuidTextView.setText(PreferenceManager.getInstance(requireActivity()).getDeviceUuid());
     }
 }

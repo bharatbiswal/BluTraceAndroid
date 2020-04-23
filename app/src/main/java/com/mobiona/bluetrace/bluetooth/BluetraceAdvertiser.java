@@ -29,7 +29,7 @@ public class BluetraceAdvertiser {
     private AdvertiseSettings createAdvertiseSettings(){
             return new  AdvertiseSettings.Builder()
                 .setTxPowerLevel(AdvertiseSettings.ADVERTISE_TX_POWER_HIGH)
-                .setAdvertiseMode(AdvertiseSettings.ADVERTISE_MODE_LOW_POWER)
+                .setAdvertiseMode(AdvertiseSettings.ADVERTISE_TX_POWER_MEDIUM)
                 .setConnectable(true)
                 .setTimeout(0)
                 .build();
@@ -47,10 +47,10 @@ public class BluetraceAdvertiser {
         byte[] serviceDataByteArray = finalString.getBytes();
 
         AdvertiseData data = new AdvertiseData.Builder()
-                .setIncludeDeviceName( false )
+                .setIncludeDeviceName( true )
                 .addServiceUuid( pUuid )
-                .setIncludeTxPowerLevel(true)
-                .addManufacturerData(1024,serviceDataByteArray)
+                //.setIncludeTxPowerLevel(true)
+                //.addManufacturerData(1024,serviceDataByteArray)
                 .build();
         bluetoothLeAdvertiser.startAdvertising( advertiseSettings, data, callback);
 
