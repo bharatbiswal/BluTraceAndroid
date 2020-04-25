@@ -7,6 +7,9 @@ import android.bluetooth.BluetoothGattService;
 import android.bluetooth.BluetoothProfile;
 import android.util.Log;
 
+import com.mobiona.bluetrace.Event;
+import com.mobiona.bluetrace.RxBus;
+
 import java.util.UUID;
 
 public class BluetraceGattCallback extends BluetoothGattCallback {
@@ -22,13 +25,24 @@ public class BluetraceGattCallback extends BluetoothGattCallback {
         switch (newState){
             case BluetoothProfile.STATE_CONNECTED:
                 Log.i(TAG, "Connected to other GATT server"+ gatt.getDevice().getName());
-                boolean discoveryOn=gatt.discoverServices();
-                Log.i(TAG,"Attempting to start service discovery on "+gatt.getDevice().getName() +" status :"+discoveryOn);
+                gatt.requestConnectionPriority(BluetoothGatt.CONNECTION_PRIORITY_BALANCED);
+                gatt.requestMtu(512);
+
                 break;
             case BluetoothProfile.STATE_DISCONNECTED:
                 Log.i(TAG, "Disconnected from other GATT server"+ gatt.getDevice().getName());
+                gatt.close();
 
                 break;
+        }
+    }
+
+    @Override
+    public void onMtuChanged(BluetoothGatt gatt, int mtu, int status) {
+        Log.i(TAG,String.format("%s MTU is %d was changed status : %d",gatt.getDevice().getAddress(),mtu,status));
+        if(status==BluetoothGatt.GATT_SUCCESS){
+            boolean discoveryOn=gatt.discoverServices();
+            Log.i(TAG,"Attempting to start service discovery on "+gatt.getDevice().getName() +" status :"+discoveryOn);
         }
     }
 
@@ -60,6 +74,7 @@ public class BluetraceGattCallback extends BluetoothGattCallback {
                 Log.i(TAG,String.format("Characteristic read from %s : %s ",gatt.getDevice().getAddress(),characteristic.getStringValue(0)));
                 String data=new String(characteristic.getValue());
                 Log.i(TAG,"Data is "+data);
+                RxBus.getInstance().sendEvent(new Event(String.format("Read Success %s",data),Event.EVENT_CHARACTERSTICS_READ));
                 break;
         }
     }
